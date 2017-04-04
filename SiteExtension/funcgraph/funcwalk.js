@@ -12,7 +12,15 @@ class configWalker{
     }     
 
     complete(configs){
-        var t = configs;
+        
+        var outward = [];
+        var inward = [];
+        
+        
+        configs.forEach((c)=>{
+            
+            var h = c;
+        });
     }
 
     walk (){
@@ -44,14 +52,7 @@ class configWalker{
                 });
             }else{
                  next();
-            }
-            //console.log(fileStats.name);
-            
-           
-            // fs.readFile(fileStats.name, function () {
-            // // doStuff 
-            // next();
-            // });
+            }            
         });
 
         this.walker.on("errors", function (root, nodeStatsArray, next) {
