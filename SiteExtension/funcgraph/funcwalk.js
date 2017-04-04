@@ -1,13 +1,18 @@
 
 "use strict";
 var walker = require("walk"), 
-    fs = require("fs");
+    fs = require("fs"), 
+    path = require("path");
 
 class configWalker{    
 
     constructor(path){
         this.path = path;
         this.walker = walker.walk(path);
+    }     
+
+    complete(configs){
+        var t = configs;
     }
 
     walk (){
@@ -18,10 +23,31 @@ class configWalker{
         
         return new Promise((good, bad) => {
         
-        this.walker.on("file", function (root, fileStats, next) {
+        this.walker.on("file", (root, fileStats, next) => {
+            
+            var name = path.join(root, fileStats.name);
+
+            if(name.indexOf("function.json")!= -1){               
+                
+                console.log(name);
+
+                fs.readFile(name, {encoding: 'utf-8'}, (err, buffer) =>{
+                    if(!err && buffer.indexOf("{")!= -1){                       
+                        console.log(buffer);
+                        var data = JSON.parse(buffer.trim());
+                        
+                        pusher.push(data);
+                    }
+                    
+                    next();
+
+                });
+            }else{
+                 next();
+            }
             //console.log(fileStats.name);
-            pusher.push(fileStats.name);
-            next();
+            
+           
             // fs.readFile(fileStats.name, function () {
             // // doStuff 
             // next();
@@ -32,8 +58,9 @@ class configWalker{
             next();
         });
  
-        this.walker.on("end", function () {
+        this.walker.on("end",  () => {
             console.log("all done");
+            var result = this.complete(pusher);
             good(pusher);
         });
     });
