@@ -4,70 +4,95 @@ var walker = require("walk"),
     fs = require("fs"), 
     path = require("path");
 
-class configWalker{    
+    class configWalker{    
 
-    constructor(path){
-        this.path = path;
-        this.walker = walker.walk(path);
-    }     
+        constructor(path){
+            this.path = path;
+            this.walker = walker.walk(path);
 
-    complete(configs){
-        
-        var outward = [];
-        var inward = [];
-        
-        
-        configs.forEach((c)=>{
+            this.in = "in";
+            this.out = "out";
+        }     
+
+        _bindingFilter(value, arr){
+            arr.forEach((a) => {
+                if(a.name == value.name && a.type == value.type){
+                    return true;
+                }
+            });
+            return false;
+        }
+
+        complete(configs){
             
-            var h = c;
-        });
-    }
+            var outward = [];
+            var inward = [];
 
-    walk (){
-
-        console.log("Walking: " + this.path);
-
-        var pusher = [];
-        
-        return new Promise((good, bad) => {
-        
-        this.walker.on("file", (root, fileStats, next) => {
             
-            var name = path.join(root, fileStats.name);
+            configs.forEach((c)=>{
+                c.bindings.forEach((binding)=>{
 
-            if(name.indexOf("function.json")!= -1){               
-                
-                console.log(name);
+                    var pushObj = {name:binding.name, type:binding.type, direction:binding.direction};
 
-                fs.readFile(name, {encoding: 'utf-8'}, (err, buffer) =>{
-                    if(!err && buffer.indexOf("{")!= -1){                       
-                        console.log(buffer);
-                        var data = JSON.parse(buffer.trim());
-                        
-                        pusher.push(data);
+                    var f = this._bindingFilter;
+
+                    if(binding.direction == this.in && !this._bindingFilter(binding, inward)){
+                        inward.push(pushObj);
                     }
+                    else if (binding.direction == this.out && !this._bindingFilter(binding, outward)){
+                        outward.push(pushObj);
+                    }
+                });            
+            });
+
+            return {inward: inward, outward:outward}
+        }
+
+        walk (){
+
+            console.log("Walking: " + this.path);
+
+            var pusher = [];
+            
+            return new Promise((good, bad) => {
+            
+                this.walker.on("file", (root, fileStats, next) => {
                     
-                    next();
+                    var name = path.join(root, fileStats.name);
 
+                    if(name.indexOf("function.json")!= -1){               
+                        
+                        console.log(name);
+
+                        fs.readFile(name, {encoding: 'utf-8'}, (err, buffer) =>{
+                            if(!err && buffer.indexOf("{")!= -1){                       
+                                console.log(buffer);
+                                var data = JSON.parse(buffer.trim());
+                                
+                                pusher.push(data);
+                            }
+                            
+                            next();
+
+                        });
+                    }else{
+                        next();
+                    }            
                 });
-            }else{
-                 next();
-            }            
-        });
 
-        this.walker.on("errors", function (root, nodeStatsArray, next) {
-            next();
-        });
- 
-        this.walker.on("end",  () => {
-            console.log("all done");
-            var result = this.complete(pusher);
-            good(pusher);
-        });
-    });
-}
+                this.walker.on("errors", function (root, nodeStatsArray, next) {
+                    next();
+                });
+        
+                this.walker.on("end",  () => {
+                    console.log("all done");
+                    var bindingDirections = this.complete(pusher);
+                    good(result);
+                });
+            });
+        }
 
-}
+    }
 
 //  configWalker.prototype.walk = function(){    
 
