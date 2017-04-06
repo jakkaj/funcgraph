@@ -23,7 +23,7 @@ var walker = require("walk"),
             return false;
         }
 
-        complete(configs){
+        consolodateBindings(configs){
             
             var outward = [];
             var inward = [];
@@ -86,10 +86,20 @@ var walker = require("walk"),
         
                 this.walker.on("end",  () => {
                     console.log("all done");
-                    var bindingDirections = this.complete(pusher);
+                    var consolodatedBindings = this.consolodateBindings(pusher);
+                    var nodes = this.buildNodes(pusher, consolodatedBindings);
                     good(result);
                 });
             });
+        }
+
+        buildNodes(allFunctions, consolodatedBindings){
+
+        }
+
+        buildGraph(allFunctions, consolodatedBindings){
+            
+
         }
 
     }
