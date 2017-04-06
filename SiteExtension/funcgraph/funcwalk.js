@@ -2,7 +2,8 @@
 "use strict";
 var walker = require("walk"), 
     fs = require("fs"), 
-    path = require("path");
+    path = require("path"), 
+    dotgraph = require("./dotgraph.js");
 
     class configWalker{    
 
@@ -16,7 +17,7 @@ var walker = require("walk"),
 
         _bindingFilter(value, arr){
             arr.forEach((a) => {
-                if(a.name == value.name && a.type == value.type){
+                if(a.name == value.name){
                     return true;
                 }
             });
@@ -27,7 +28,7 @@ var walker = require("walk"),
             
             var outward = [];
             var inward = [];
-
+            var all = [];
             
             configs.forEach((c)=>{
                 c.bindings.forEach((binding)=>{
@@ -42,10 +43,14 @@ var walker = require("walk"),
                     else if (binding.direction == this.out && !this._bindingFilter(binding, outward)){
                         outward.push(pushObj);
                     }
+
+                    if(!this._bindingFilter(binding, all)){
+                        all.push(pushObj);
+                    }                    
                 });            
             });
 
-            return {inward: inward, outward:outward}
+            return {inward: inward, outward:outward, all:all}
         }
 
         walk (){
@@ -68,7 +73,7 @@ var walker = require("walk"),
                             if(!err && buffer.indexOf("{")!= -1){                       
                                 console.log(buffer);
                                 var data = JSON.parse(buffer.trim());
-                                
+                                data.funcName = fileStats.name;
                                 pusher.push(data);
                             }
                             
@@ -94,7 +99,17 @@ var walker = require("walk"),
         }
 
         buildNodes(allFunctions, consolodatedBindings){
+            var ioNodes = new dotgraph.node("box", "filled", "yellow", 
+                consolodatedBindings.all.map((ele) => ele.name)
+            );
 
+            var funcNodes = new dotgraph.node("doublecircle", "filled", "orange", 
+                allFunctions.map((ele) => ele.funcName)
+            );
+
+            var ioString = ioNodes.build();
+            var funcString = funcNodes.build();
+            
         }
 
         buildGraph(allFunctions, consolodatedBindings){
