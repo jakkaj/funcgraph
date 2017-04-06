@@ -13,15 +13,92 @@ var walker = require("walk"),
 
             this.in = "in";
             this.out = "out";
+
+            this.funcTypes = [
+                ["http", "webHookType"],
+                ["queueTrigger", "queueName"],
+                ["blob", "path"],
+                ["timerTrigger", "schedule"],
+                ["serviceBus", ["queueName", "topicName"]],
+                ["manualTrigger", null],
+                ["eventHubTrigger", "path"], 
+                ["documentDB", "databaseName"],
+                ["table", "tableName"], 
+                ["notificationHub", "hubName"],
+                ["sendGrid", null],
+                ["queueTrigger", "queueName"],
+                ["twilioSms", null]
+            ];
         }     
 
         _bindingFilter(value, arr){
-            arr.forEach((a) => {
-                if(a.name == value.name){
+            
+            for(var i = 0; i < arr.length; i++){
+                
+                if(arr[i].name == value.name){
                     return true;
                 }
-            });
+            }
+
             return false;
+        }
+
+        findBindingType(binding){
+            var type = binding.type;
+            var discoveredFuncType = "";
+            var propMatch = "";
+            var propVal = "";
+
+            this.funcTypes.forEach((funcType)=>{
+                if(type.toLowerCase().indexOf(funcType[0].toLowerCase()) != -1){
+                    propMatch = funcType[1];
+                    discoveredFuncType = funcType[0];                    
+                }
+            });
+
+            if(discoveredFuncType == ""){
+                console.log("Warn: No functype discovered for: " + type);
+                return null;
+            }
+
+            if(propMatch == null){
+                propVal = discoveredFuncType;
+            }else{           
+
+                if (!(propMatch instanceof Array)) {
+                    propVal = binding[propMatch];
+                }else{
+                    propMatch.forEach((p)=>{
+                        var p = this.findProp(p, binding);
+                        if(p!=null){
+                            propVal = binding[p];
+                        }
+                    });
+                }
+            }
+
+            if(!propVal || propVal == "" || propVal == null){
+                propVal = discoveredFuncType;
+            }
+
+
+            
+            return {type:type, funcType: discoveredFuncType, name: propVal, matchedProp: propMatch };
+        }
+
+        findProp(propName, obj){
+            for(var prop in obj){
+
+                if(prop.toLowerCase().indexOf(propName.toLowerCase())!=-1){
+                    return prop;
+                }
+                // var regexMatch = /.+?Name/gi.exec(prop);
+
+                // if(regexMatch && regexMatch.length > 0){
+                //     return obj[prop]; 
+                // }
+            }
+            return null;
         }
 
         consolodateBindings(configs){
@@ -29,11 +106,18 @@ var walker = require("walk"),
             var outward = [];
             var inward = [];
             var all = [];
+            var allBindingTypes = [];
             
             configs.forEach((c)=>{
-                c.bindings.forEach((binding)=>{
+                c.bindings.forEach((binding)=>{                    
 
-                    var pushObj = {name:binding.name, type:binding.type, direction:binding.direction};
+                    var matchedBindingType = this.findBindingType(binding);
+
+                    if(matchedBindingType == null){
+                        return;
+                    }
+
+                    var pushObj = {name:matchedBindingType.name, type:matchedBindingType.funcType, direction:binding.direction};
 
                     var f = this._bindingFilter;
 
@@ -47,10 +131,14 @@ var walker = require("walk"),
                     if(!this._bindingFilter(binding, all)){
                         all.push(pushObj);
                     }                    
+
+                    if(!this._bindingFilter(pushObj, allBindingTypes)){
+                        allBindingTypes.push(pushObj);
+                    }                    
                 });            
             });
 
-            return {inward: inward, outward:outward, all:all}
+            return {inward: inward, outward:outward, all:all, allBindings:allBindingTypes }
         }
 
         walk (){
@@ -99,8 +187,11 @@ var walker = require("walk"),
         }
 
         buildNodes(allFunctions, consolodatedBindings){
+            
+            var ab = consolodatedBindings.allBindings;
+            
             var ioNodes = new dotgraph.node("box", "filled", "yellow", 
-                consolodatedBindings.all.map((ele) => ele.name)
+                consolodatedBindings.allBindings.map((ele) => ele.name + "(" + ele.type + ")")
             );
 
             var funcNodes = new dotgraph.node("doublecircle", "filled", "orange", 
