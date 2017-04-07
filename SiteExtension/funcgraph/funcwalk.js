@@ -119,6 +119,10 @@ var walker = require("walk"),
                         return;
                     }                    
 
+                    if(matchedBindingType.varName == "$return" || matchedBindingType.varName == "res"){
+                        return;
+                    }
+
                     var pushObj = {name:matchedBindingType.name + "(" + matchedBindingType.funcType + ")", type:matchedBindingType.funcType, 
                         direction:binding.direction, varName: binding.name, funcName:binding.funcName};
 
