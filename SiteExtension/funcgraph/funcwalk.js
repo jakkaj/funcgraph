@@ -35,7 +35,7 @@ var walker = require("walk"),
             
             for(var i = 0; i < arr.length; i++){
                 
-                if(arr[i].name == value.name){
+                if(arr[i].name == value.name && arr[i].direction == value.direction){
                     return true;
                 }
             }
@@ -83,7 +83,7 @@ var walker = require("walk"),
 
 
             
-            return {type:type, funcType: discoveredFuncType, name: propVal, matchedProp: propMatch };
+            return {type:type, funcType: discoveredFuncType, name: propVal, matchedProp: propMatch, varName: binding.name };
         }
 
         findProp(propName, obj){
@@ -115,9 +115,10 @@ var walker = require("walk"),
 
                     if(matchedBindingType == null){
                         return;
-                    }
+                    }                    
 
-                    var pushObj = {name:matchedBindingType.name, type:matchedBindingType.funcType, direction:binding.direction};
+                    var pushObj = {name:matchedBindingType.name, type:matchedBindingType.funcType, 
+                        direction:binding.direction, varName: binding.name, funcName:binding.funcName};
 
                     var f = this._bindingFilter;
 
@@ -152,16 +153,20 @@ var walker = require("walk"),
                 this.walker.on("file", (root, fileStats, next) => {
                     
                     var name = path.join(root, fileStats.name);
+                    var folderSplit = root.split(path.sep);
+                    var folderName = folderSplit[folderSplit.length - 1];
 
-                    if(name.indexOf("function.json")!= -1){               
+                    if(name.indexOf("function.json")!= -1){                                      
                         
-                        console.log(name);
 
                         fs.readFile(name, {encoding: 'utf-8'}, (err, buffer) =>{
                             if(!err && buffer.indexOf("{")!= -1){                       
-                                console.log(buffer);
+                                
                                 var data = JSON.parse(buffer.trim());
-                                data.funcName = fileStats.name;
+                                data.funcName = folderName;
+                                data.bindings.forEach((binding)=>{
+                                    binding.funcName = folderName;
+                                });
                                 pusher.push(data);
                             }
                             
@@ -198,9 +203,21 @@ var walker = require("walk"),
                 allFunctions.map((ele) => ele.funcName)
             );
 
-            var ioString = ioNodes.build();
-            var funcString = funcNodes.build();
-            
+            var connectionFrom = ab.filter((binding)=>binding.direction == this.out);
+            var connectionTo = ab.filter((binding)=>binding.direction == this.in);           
+
+
+            var edgesTo = new dotgraph.edge("bold", null, null, connectionTo.map((binding)=>new dotgraph.connection(binding.name, binding.funcName, binding.varName)));
+            var edgesFrom = new dotgraph.edge("bold", null, null, connectionFrom.map((binding)=>new dotgraph.connection(binding.funcName, binding.name, binding.varName)));
+
+            //var ioString = ioNodes.build();
+            //var funcString = funcNodes.build();
+            //var edgesToString = edgesTo.build();
+            //var edgesFromString = edgesFrom.build();
+
+            var builder = new dotgraph.dotBuilder();
+            var builtDot = builder.build([ioNodes, funcNodes], [edgesTo, edgesFrom]);
+            console.log(builtDot);
         }
 
         buildGraph(allFunctions, consolodatedBindings){
