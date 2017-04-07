@@ -33,7 +33,7 @@ class node{
         var builder = "node [shape={shape},style={style},color={color}]".format(this);
 
         this.elements.forEach((ele)=>{
-            builder += "\r\n\" " + ele + "\"";
+            builder += "\r\n \"" + ele + "\"";
         });
 
         return builder;
@@ -66,13 +66,13 @@ class edge {
 
         var style = attr.join();
 
-        var builder = "[edge";
+        var builder = "edge [ ";
         
         if(style && style != null && style!=""){
             builder += " " + style;
         }
         
-        builder += "]";
+        builder += " ]";
 
         this.connections.forEach((ele)=>{
             builder += "\r\n " + ele.build();

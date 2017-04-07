@@ -3,7 +3,9 @@
 var walker = require("walk"), 
     fs = require("fs"), 
     path = require("path"), 
-    dotgraph = require("./dotgraph.js");
+    dotgraph = require("./dotgraph.js"), 
+    viz = require('viz.js');
+    
 
     class configWalker{    
 
@@ -117,7 +119,7 @@ var walker = require("walk"),
                         return;
                     }                    
 
-                    var pushObj = {name:matchedBindingType.name, type:matchedBindingType.funcType, 
+                    var pushObj = {name:matchedBindingType.name + "(" + matchedBindingType.funcType + ")", type:matchedBindingType.funcType, 
                         direction:binding.direction, varName: binding.name, funcName:binding.funcName};
 
                     var f = this._bindingFilter;
@@ -133,9 +135,7 @@ var walker = require("walk"),
                         all.push(pushObj);
                     }                    
 
-                    if(!this._bindingFilter(pushObj, allBindingTypes)){
-                        allBindingTypes.push(pushObj);
-                    }                    
+                      allBindingTypes.push(pushObj);                    
                 });            
             });
 
@@ -183,10 +183,16 @@ var walker = require("walk"),
                 });
         
                 this.walker.on("end",  () => {
-                    console.log("all done");
-                    var consolodatedBindings = this.consolodateBindings(pusher);
-                    var nodes = this.buildNodes(pusher, consolodatedBindings);
-                    good(result);
+                    try{
+                        console.log("all done");
+                        var consolodatedBindings = this.consolodateBindings(pusher);
+                        var dot = this.buildNodes(pusher, consolodatedBindings);
+                        var svg = this.buildGraph(dot);
+                        good(svg);
+                    }catch (e) {
+                        bad(e);
+                    }
+                    
                 });
             });
         }
@@ -196,7 +202,7 @@ var walker = require("walk"),
             var ab = consolodatedBindings.allBindings;
             
             var ioNodes = new dotgraph.node("box", "filled", "yellow", 
-                consolodatedBindings.allBindings.map((ele) => ele.name + "(" + ele.type + ")")
+                consolodatedBindings.allBindings.map((ele) => ele.name)
             );
 
             var funcNodes = new dotgraph.node("doublecircle", "filled", "orange", 
@@ -217,12 +223,11 @@ var walker = require("walk"),
 
             var builder = new dotgraph.dotBuilder();
             var builtDot = builder.build([ioNodes, funcNodes], [edgesTo, edgesFrom]);
-            console.log(builtDot);
+            return builtDot;
         }
 
-        buildGraph(allFunctions, consolodatedBindings){
-            
-
+        buildGraph(dot){
+            return viz(dot, { format: "svg" });
         }
 
     }
