@@ -205,11 +205,11 @@ var walker = require("walk"),
             
             var ab = consolodatedBindings.allBindings;
             
-            var ioNodes = new dotgraph.node("box", "filled", "yellow", 
+            var ioNodes = new dotgraph.node("record", "filled", "yellow", 
                 consolodatedBindings.allBindings.map((ele) => ele.name)
             );
 
-            var funcNodes = new dotgraph.node("doublecircle", "filled", "orange", 
+            var funcNodes = new dotgraph.node("doublecircle", "filled", "lightblue", 
                 allFunctions.map((ele) => ele.funcName)
             );
 
@@ -225,8 +225,10 @@ var walker = require("walk"),
             //var edgesToString = edgesTo.build();
             //var edgesFromString = edgesFrom.build();
 
+            var graphName = process.env.WEB_SITE_NAME || "Local"
+
             var builder = new dotgraph.dotBuilder();
-            var builtDot = builder.build([ioNodes, funcNodes], [edgesTo, edgesFrom]);
+            var builtDot = builder.build([ioNodes, funcNodes], [edgesTo, edgesFrom], graphName + "\r\nFunction graph\r\n https://github.com/jakkaj/funcgraph");
             return builtDot;
         }
 

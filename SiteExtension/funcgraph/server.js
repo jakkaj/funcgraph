@@ -30,14 +30,11 @@ http.createServer(function (req, res) {
 
     var funcwalker = new funcwalk.walkConfigs(dir);
 
-    
+
 
     funcwalker.walk()
         .then((result)=>
-        {
-            result = result.replace(/Times,serif/gi, "sans-serif");     
-            
-            console.log("Good: " + result);
+        {   
             
             if(format == "png"){
                 

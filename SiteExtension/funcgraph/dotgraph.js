@@ -3,9 +3,16 @@ var format = require("string-format");
 format.extend(String.prototype)
 
 class dotBuilder{
-    build(nodes, edge){
+    build(nodes, edge, title){
         var builder = "digraph app {\r\n";
-
+        builder += "graph [ fontname=Consolas,center=true," +
+        "nodesep=.8," +
+        "ranksep=\".2 equally\"," + 
+        "sep=2.2" +
+        "];";
+        
+        //builder += "graph [ bgcolor=white, fontname=Arial, fontcolor=black, " +
+                 //        "fontsize=10 ]\r\n";
         nodes.forEach((node)=>{
             builder += "\r\n" + node.build();
         })
@@ -13,6 +20,8 @@ class dotBuilder{
         edge.forEach((edge)=>{
             builder += "\r\n" + edge.build();
         })
+
+        builder += "labelloc=\"t\";\r\nlabel=\"" + title + "\";";
 
         builder += "\r\n}";
 
@@ -30,7 +39,7 @@ class node{
     }
 
     build(){
-        var builder = "node [shape={shape},style={style},color={color}]".format(this);
+        var builder = "node [margin=.3,fontname=Consolas,fontsize=10,shape={shape},style={style},color={color}]".format(this);
 
         this.elements.forEach((ele)=>{
             builder += "\r\n \"" + ele + "\"";
@@ -62,11 +71,11 @@ class edge {
 
         if(this.direction){
             attr.push("direction=" + this.direction);
-        }
+        }        
 
         var style = attr.join();
 
-        var builder = "edge [ ";
+        var builder = "edge [fontname=Consolas,fontsize=10, ";
         
         if(style && style != null && style!=""){
             builder += " " + style;
@@ -92,7 +101,7 @@ class connection{
     build(){
         var builder = "\"{from}\" -> \"{to}\"".format(this);
         if(this.label && this.label != ""){
-            builder += " [ label = \"{label}\" ]".format(this);
+            builder += " [ label = \"      {label}     \" ]".format(this);
         }     
 
         return builder;   
