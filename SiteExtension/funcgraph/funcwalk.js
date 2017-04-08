@@ -225,10 +225,10 @@ var walker = require("walk"),
             //var edgesToString = edgesTo.build();
             //var edgesFromString = edgesFrom.build();
 
-            var graphName = process.env.WEB_SITE_NAME || "Local"
+            var graphName = process.env.WEBSITE_HOSTNAME || "Local"
 
             var builder = new dotgraph.dotBuilder();
-            var builtDot = builder.build([ioNodes, funcNodes], [edgesTo, edgesFrom], graphName + "\r\nFunction graph\r\n https://github.com/jakkaj/funcgraph");
+            var builtDot = builder.build([ioNodes, funcNodes], [edgesTo, edgesFrom], "Function Graph\r\n" + graphName + "\r\n\r\nhttps://github.com/jakkaj/funcgraph\r\n\r\n");
             return builtDot;
         }
 
