@@ -3,6 +3,8 @@ Azure Function  Visualiser (Visualizer :P) is an Azure Site Extension to show th
 
 Installation is easy - head to the Kudu SCM for your Function site, click on Site Extensions, switch to gallery and search for "Function" and pick "Azure Function Graphic Visualiser". Once it's installed you will need to hit ```Restart Site```. Now you can visit yoursite.scm.azurewebsites.net/funcgraph and see your functions as a neat diagram!
 
+**Please note: Site Extensions do not work with consumption based plans. You must have a paid App Service plan* 
+
 [Site extension link](https://www.siteextensions.net/packages/funcgraph/1.0.1)
 
 Azure Functions are an awesome way to create separate little microservices that each solve their own little part of a puzzle.
