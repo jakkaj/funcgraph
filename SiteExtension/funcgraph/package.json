@@ -7,8 +7,9 @@
     "name": "jakka"
   },
   "dependencies": {
-    "viz.js": "~1.7.1",
+    "string-format": "^0.5.0",
     "svg2png": "~4.1.1",
-    "walk" : "~2.3.9"
+    "viz.js": "~1.7.1",
+    "walk": "~2.3.9"
   }
 }
