@@ -38,9 +38,12 @@ http.createServer(function (req, res) {
             
             if(format == "png"){
                 
-                var png = svg2png(result, { width: 2560, height: 2048 })
-                res.writeHead(200, { 'Content-Type': 'image/png' });
-                 res.end(png);
+                svg2png(result, { width: 2560, height: 2048 })
+                .then((buffer)=>{
+                    res.writeHead(200, { 'Content-Type': 'image/png' });
+                    res.end(buffer, 'binary');
+                });
+                
 
             }else{
                 

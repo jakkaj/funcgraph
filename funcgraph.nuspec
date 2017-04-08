@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>funcgraph</id>
+    <title>Azure Function Graphic Visualiser</title>
+    <version>1.0.1</version>
+    <authors>Jordan Knight</authors>
+    <licenseUrl>https://github.com/jakkaj/funcgraph/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/jakkaj/funcgraph</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A Site Extension that visualises your the relationships of your Azure Functions</description>
+    <iconUrl>https://github.com/jakkaj/funcgraph/raw/master/media/icon.png</iconUrl>
+    <tags>Function visualization visualisation siteextension</tags>
+  </metadata>
+  <files>
+    <file src="SiteExtension\funcgraph\**\*.*" target="content" />
+  </files>
+</package>
