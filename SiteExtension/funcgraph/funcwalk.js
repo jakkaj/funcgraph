@@ -80,6 +80,10 @@ var walker = require("walk"),
                 }
             }
 
+            if(propVal.startsWith("%")){
+                propVal = process.env[propVal.substr(1, propVal.length-2)];
+            }
+
             if(!propVal || propVal == "" || propVal == null){
                 propVal = discoveredFuncType;
             }
