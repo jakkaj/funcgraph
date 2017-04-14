@@ -78,17 +78,15 @@ var walker = require("walk"),
                         }
                     });
                 }
-            }
-
-            if(propVal.startsWith("%")){
-                propVal = process.env[propVal.substr(1, propVal.length-2)];
-            }
+            }            
 
             if(!propVal || propVal == "" || propVal == null){
                 propVal = discoveredFuncType;
             }
 
-
+            if(propVal.startsWith("%")){
+                propVal = process.env[propVal.substr(1, propVal.length-2)];
+            }
             
             return {type:type, funcType: discoveredFuncType, name: propVal, matchedProp: propMatch, varName: binding.name };
         }

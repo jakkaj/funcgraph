@@ -13,7 +13,7 @@ var dir = "";
 if(process.env.HOME){
     dir = process.env.HOME + "\\site\\wwwroot"; 
 }else{
-     dir = "C:\\Temp\\VideoManagementFunctions\\func";
+     dir = "C:\\Users\\jorkni\\Documents\\temp\\funcs\\VideoIngestion\\Func";
 }
 
 //var funcwalker = funcwalk.walkConfigs();
