@@ -1,5 +1,6 @@
 $root = $env:APPVEYOR_BUILD_FOLDER
-$versionStr = $env:APPVEYOR_BUILD_NUMBER
+
+$versionStr = $env:APPVEYOR_BUILD_VERSION
 
 Write-Host "Setting .nuspec version tag to $versionStr"
 
