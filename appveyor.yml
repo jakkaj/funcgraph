@@ -27,7 +27,8 @@ install:
 build: off
 
 after_test:
-  - ps: nuget.exe pack
+  - ps: .\build\build.ps1
+  - ps: nuget.exe pack funcgraph.compiled.nuspec
 
 artifacts:
 - path: .\*.nupkg
