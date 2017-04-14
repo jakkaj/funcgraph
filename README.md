@@ -1,7 +1,7 @@
 # Azure Function Graphic Visualiser
 Azure Function  Visualiser (Visualizer :P) is an Azure Site Extension to show the relationships between your functions.
 
-[![Build status](https://ci.appveyor.com/api/projects/status/j2lbr479ovrb217f/branch/master?svg=true)](https://ci.appveyor.com/project/jakkaj/funcgraph/branch/master)
+[![Build status](https://ci.appveyor.com/api/projects/status/j2lbr479ovrb217f/branch/master?svg=true)](https://ci.appveyor.com/project/jakkaj/funcgraph/branch/master) [![GitHub release](https://img.shields.io/github/release/jakkaj/funcgraph.svg)](https://github.com/jakkaj/funcgraph/releases/latest) [![Site Extension](https://img.shields.io/badge/SiteExtension-latest-blue.svg)](https://www.siteextensions.net/packages/funcgraph/)
 
 Installation is easy - head to the Kudu SCM for your Function site, click on Site Extensions, switch to gallery and search for "Function" and pick "Azure Function Graphic Visualiser". Once it's installed you will need to hit ```Restart Site```. Now you can visit yoursite.scm.azurewebsites.net/funcgraph and see your functions as a neat diagram!
 
