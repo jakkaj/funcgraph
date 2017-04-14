@@ -3,7 +3,7 @@
   <metadata>
     <id>funcgraph</id>
     <title>Azure Function Graphic Visualiser</title>
-    <version>1.0.1</version>
+    <version>$version$</version>
     <authors>Jordan Knight</authors>
     <licenseUrl>https://github.com/jakkaj/funcgraph/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/jakkaj/funcgraph</projectUrl>
