@@ -7,7 +7,10 @@ install:
   # Get the latest stable version of Node.js or io.js
   - ps: Install-Product node $env:nodejs_version
   # install modules
+  - cd "SiteExtensions\funcgraph"
   - npm install
+  - cd ..
+  - cd ..
 
 # Post-install test scripts.
 #test_script:
