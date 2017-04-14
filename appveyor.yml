@@ -26,7 +26,7 @@ install:
 # Don't actually build.
 build: off
 
-after_build:
+after_test:
   - ps: .\nuget.exe pack
 
 artifacts:
