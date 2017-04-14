@@ -30,7 +30,7 @@ after_build:
   - ps: .\nuget.exe pack
 
 artifacts:
-  - path: .\*.nupkg
-  - name: NuGet
-  - type: NuGetPackage
+- path: .\*.nupkg
+  name: NuGet
+  type: NuGetPackage
 
