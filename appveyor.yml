@@ -27,7 +27,7 @@ install:
 build: off
 
 after_test:
-  - ps: .\nuget.exe pack
+  - ps: nuget.exe pack
 
 artifacts:
 - path: .\*.nupkg
