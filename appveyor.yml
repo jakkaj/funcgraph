@@ -21,6 +21,6 @@ install:
 #  - npm test
 
 # Don't actually build.
-build:
+build: off
 
 
