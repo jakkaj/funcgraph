@@ -1,3 +1,6 @@
+# version format
+version: 1.0.{build}
+
 # Test against the latest version of this Node.js version
 environment:
   nodejs_version: "6"
@@ -24,7 +27,7 @@ install:
 build: off
 
 after_build:
-  - ps: '.\nuget pack'
+  - ps: .\nuget.exe pack
 
 artifacts:
   - path: '*.nupkg'
