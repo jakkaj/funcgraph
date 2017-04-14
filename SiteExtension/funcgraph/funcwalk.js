@@ -23,7 +23,8 @@ var walker = require("walk"),
                 ["timerTrigger", "schedule"],
                 ["serviceBus", ["queueName", "topicName"]],
                 ["manualTrigger", null],
-                ["eventHubTrigger", "path"], 
+                ["eventHubTrigger", "path"],
+                ["eventHub", "path"],  
                 ["documentDB", "databaseName"],
                 ["table", "tableName"], 
                 ["notificationHub", "hubName"],
@@ -77,6 +78,10 @@ var walker = require("walk"),
                         }
                     });
                 }
+            }
+
+            if(propVal.startsWith("%")){
+                propVal = process.env[propVal.substr(1, propVal.length-2)];
             }
 
             if(!propVal || propVal == "" || propVal == null){
