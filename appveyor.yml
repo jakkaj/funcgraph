@@ -35,3 +35,15 @@ artifacts:
   name: NuGet
   type: NuGetPackage
 
+deploy:
+  release: funcgraph-v$(appveyor_build_version)
+  description: 'Commit build'
+  provider: GitHub
+  auth_token: 
+    secure: R1Od4gYaFkuhqpFUVBJpVZY4CRAeHuzgH4VQBMfWWXwEAEY4iVJo8sNBq4N+4enq # your encrypted token from GitHub
+  artifact: /.*\.nupkg/            # upload all NuGet packages to release assets
+  draft: true
+  prerelease: false
+  on:
+    branch: master                 # release from master branch only
+    appveyor_repo_tag: false        # deploy on tag push only 
