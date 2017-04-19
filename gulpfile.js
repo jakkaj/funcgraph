@@ -35,14 +35,14 @@ gulp.task('clean:dev', function () {
 });
  
 gulp.task('compile', function(){
-var tsconfig = JSON.parse(fs.readFileSync('tsconfig.json', 'utf8'));
+var tsconfig = JSON.parse(fs.readFileSync('src/tsconfig.json', 'utf8'));
   gulp.src(['src/**/*.ts'])
     .pipe(typescript(tsconfig.compilerOptions))
     .pipe(gulp.dest(dest));
 });
 
 gulp.task('compile_tests', function(){
-var tsconfig = JSON.parse(fs.readFileSync('tsconfig.json', 'utf8'));
+var tsconfig = JSON.parse(fs.readFileSync('src/tsconfig.json', 'utf8'));
   gulp.src(['tests/**/*.ts'])
     .pipe(typescript(tsconfig.compilerOptions))
     .pipe(gulp.dest(dest));
@@ -52,7 +52,7 @@ var tsconfig = JSON.parse(fs.readFileSync('tsconfig.json', 'utf8'));
 gulp.task('compile_release',["clean:release"], function(){
 
 
-var tsconfig = JSON.parse(fs.readFileSync('tsconfig_release.json', 'utf8'));
+var tsconfig = JSON.parse(fs.readFileSync('src/tsconfig_release.json', 'utf8'));
   gulp.src(['src/**/*.ts'])
     .pipe(typescript(tsconfig.compilerOptions))
     .pipe(gulp.dest(dest_rel));

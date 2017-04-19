@@ -4,8 +4,7 @@
         "target": "es6",
         "noImplicitAny": false,
         "sourceMap": true,        
-        "outDir": "build/debug/SiteExtension/funcgraph",
-        "experimentalDecorators": true
-        
+        "outDir": "../build/debug/SiteExtension/funcgraph",
+        "experimentalDecorators": true        
     }
 }

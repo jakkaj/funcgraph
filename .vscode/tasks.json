@@ -4,21 +4,21 @@
 	"version": "0.1.0",
 	"tasks":[
 		{
-			"taskName": "buildTask",
+			"taskName": "build:dev",
 			"command": "gulp",
 			"isShellCommand": true,			
 			"showOutput": "always",
 			"problemMatcher": ["$gulp-tsc"],
-			"isBuildCommand": true,
+			"isBuildCommand": false,
 			"args": ["build"]
 		},
 		{
-			"taskName": "release",
+			"taskName": "build:release",
 			"command": "gulp",
 			"isShellCommand": true,			
 			"showOutput": "always",
 			"problemMatcher": ["$gulp-tsc"],
-			"isBuildCommand": true,
+			"isBuildCommand": false,
 			"args": ["build_release"]
 		},
 		{
@@ -27,17 +27,17 @@
 			"isShellCommand": true,			
 			"showOutput": "always",
 			"problemMatcher": ["$gulp-tsc"],
-			"isBuildCommand": true,
+			"isBuildCommand": false,
 			"args": ["clean:dev"]
 		},
 		{
-			"taskName": "straightBuild",
+			"taskName": "build:dev:fast",
 			"command": "tsc",
 			"isShellCommand": true,
 			"args": ["-p", "./src", "--listEmittedFiles", "--pretty"],
 			"showOutput": "silent",			
 			"problemMatcher": "$tsc",
-			"isBuildCommand": false
+			"isBuildCommand": true
 		},
 		{
 			"taskName": "Ava Tests",

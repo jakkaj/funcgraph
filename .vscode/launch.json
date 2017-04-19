@@ -12,7 +12,7 @@
             "name": "Launch Program",
             "program": "${workspaceRoot}/src/server.ts",
             "cwd": "${workspaceRoot}",
-            "preLaunchTask": "buildTask",
+            "preLaunchTask": "build:dev:fast",
             "outFiles": [
                 "${workspaceRoot}/build/debug/SiteExtension/funcgraph/**/*.js"
             ],
