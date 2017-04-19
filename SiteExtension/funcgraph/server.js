@@ -13,12 +13,10 @@ var http = require('http');
 var port = process.env.port || 1337;
 var svg2png = require("svg2png");
 var url = require('url');
-var dir = "";
+var path = require("path");
+var dir = path.join(__dirname, '..', '..', 'testData');
 if (process.env.HOME) {
     dir = process.env.HOME + "\\site\\wwwroot";
-}
-else {
-    dir = "C:\\Users\\jorkni\\Documents\\temp\\funcs\\VideoIngestion\\Func";
 }
 http.createServer(function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
