@@ -1,0 +1,27 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+	"version": "0.1.0",
+	"tasks":[
+		{
+			"taskName": "buildTask",
+			"command": "tsc",
+			"isShellCommand": true,
+			"args": ["-p", ".", "--listEmittedFiles", "--pretty"],
+			"showOutput": "silent",
+			"problemMatcher": "$tsc",
+			"isBuildCommand": true
+		},
+		{
+			"taskName": "Ava Tests",
+			"isTestCommand": true,
+			"command": "ava",
+			"isShellCommand": true,
+			"args": ["js_output/test.js"],
+			"showOutput": "always"
+			
+		}
+	]
+	
+	
+}
