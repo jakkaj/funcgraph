@@ -1,0 +1,14 @@
+{
+  "frameworks": {
+    "net46":{
+      "dependencies": {        
+        "ExtensionGoo": "0.0.8",         
+        "windowsazure.mediaservices" : "3.8.0.2",
+        "windowsazure.mediaservices.extensions" : "3.8.0.3",
+        "microsoft.azure.search" : "3.0.2",
+        "Microsoft.Spatial": "6.15.0",
+        "Microsoft.Rest.ClientRuntime.Azure" : "3.3.4"
+      }
+    }
+   }
+}

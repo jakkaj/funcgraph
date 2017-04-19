@@ -1,0 +1,14 @@
+{
+  "bindings": [
+    {
+      "type": "serviceBusTrigger",
+      "name": "videoindexparsedMsg",
+      "topicName": "videoindexparsed",
+      "subscriptionName": "searchIndexer",
+      "connection": "mediaencoder",
+      "accessRights": "Manage",
+      "direction": "in"
+    }
+  ],
+  "disabled": false
+}

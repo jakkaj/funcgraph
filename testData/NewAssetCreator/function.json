@@ -1,0 +1,21 @@
+{
+  "bindings": [
+    {
+      "name": "myBlob",
+      "type": "blobTrigger",
+      "direction": "in",
+      "path": "staging/{name}",
+      "connection": "techoneecmmedia_STORAGE"
+    },   
+   
+      {
+      "type": "serviceBus",
+      "name": "newVideoServiceBusOutput",
+      "topicName": "newasset",
+      "connection": "mediaencoder",
+      "accessRights_": "Manage",
+      "direction": "out"
+    }
+  ],
+  "disabled": false
+}

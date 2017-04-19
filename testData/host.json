@@ -1,0 +1,9 @@
+{
+    "functionTimeout": "03:00:00",
+    "serviceBus": {
+      // The maximum number of concurrent calls to the callback the message
+      // pump should initiate. The default is 16.
+      "maxConcurrentCalls": 16,
+      "autoRenewTimeout": "03:00:00"
+    }
+}

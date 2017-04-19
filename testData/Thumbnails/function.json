@@ -1,0 +1,14 @@
+{
+  "bindings": [
+    {
+      "type": "serviceBusTrigger",
+      "name": "newVideoServiceBusMessage",
+      "topicName": "newasset",
+      "subscriptionName": "thumbs",
+      "connection": "mediaencoder",
+      "accessRights": "Manage",
+      "direction": "in"
+    }
+  ],
+  "disabled": false
+}
