@@ -9,6 +9,7 @@ var del = require('del');
 
 gulp.task('build', function() {
     return [gulp.start("compile"),
+    gulp.start("compile_tests"),
     gulp.src(["package.json", 'src/applicationHost.xdt', 'src/web.config'])
         .pipe(gulp.dest(dest))
     ];
@@ -39,6 +40,14 @@ var tsconfig = JSON.parse(fs.readFileSync('tsconfig.json', 'utf8'));
     .pipe(typescript(tsconfig.compilerOptions))
     .pipe(gulp.dest(dest));
 });
+
+gulp.task('compile_tests', function(){
+var tsconfig = JSON.parse(fs.readFileSync('tsconfig.json', 'utf8'));
+  gulp.src(['tests/**/*.ts'])
+    .pipe(typescript(tsconfig.compilerOptions))
+    .pipe(gulp.dest(dest));
+});
+
 
 gulp.task('compile_release',["clean:release"], function(){
 
