@@ -1,0 +1,36 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+	"version": "0.1.0",
+	"tasks":[
+		{
+			"taskName": "gulpBuild",
+			"command": "gulp",
+			"isShellCommand": true,			
+			"showOutput": "always",
+			"problemMatcher": ["$tsc"],
+			"isBuildCommand": true,
+			"args": ["build"]
+		},
+		{
+			"taskName": "straightBuild",
+			"command": "tsc",
+			"isShellCommand": true,
+			"args": ["-p", "./src", "--listEmittedFiles", "--pretty"],
+			"showOutput": "silent",			
+			"problemMatcher": "$tsc",
+			"isBuildCommand": false
+		},
+		{
+			"taskName": "Ava Tests",
+			"isTestCommand": true,
+			"command": "ava",
+			"isShellCommand": true,
+			"args": ["SiteExtension/funcgraph/tests.js"],
+			"showOutput": "always"
+			
+		}
+	]
+	
+	
+}

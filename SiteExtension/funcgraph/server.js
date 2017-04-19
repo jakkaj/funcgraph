@@ -44,4 +44,3 @@ http.createServer(function (req, res) {
         }
     });
 }).listen(port);
-//# sourceMappingURL=server.js.map

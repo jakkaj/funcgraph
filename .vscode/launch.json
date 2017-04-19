@@ -13,7 +13,7 @@
             "cwd": "${workspaceRoot}",
             "preLaunchTask": "buildTask",
             "outFiles": [
-                "${workspaceRoot}/../SiteExtension/funcgraph/**/*.js"
+                "${workspaceRoot}/SiteExtension/funcgraph/**/*.js"
             ],
             "sourceMaps": true
         }
