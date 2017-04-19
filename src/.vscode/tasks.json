@@ -17,7 +17,7 @@
 			"isTestCommand": true,
 			"command": "ava",
 			"isShellCommand": true,
-			"args": ["js_output/test.js"],
+			"args": ["../SiteExtension/funcgraph/tests.js"],
 			"showOutput": "always"
 			
 		}
