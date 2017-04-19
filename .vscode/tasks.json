@@ -13,6 +13,24 @@
 			"args": ["build"]
 		},
 		{
+			"taskName": "release",
+			"command": "gulp",
+			"isShellCommand": true,			
+			"showOutput": "always",
+			"problemMatcher": ["$gulp-tsc"],
+			"isBuildCommand": true,
+			"args": ["build_release"]
+		},
+		{
+			"taskName": "clean:dev",
+			"command": "gulp",
+			"isShellCommand": true,			
+			"showOutput": "always",
+			"problemMatcher": ["$gulp-tsc"],
+			"isBuildCommand": true,
+			"args": ["clean:dev"]
+		},
+		{
 			"taskName": "straightBuild",
 			"command": "tsc",
 			"isShellCommand": true,
