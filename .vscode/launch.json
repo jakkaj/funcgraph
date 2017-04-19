@@ -5,11 +5,12 @@
     "version": "0.2.0",
 
     "configurations": [
+       
         {
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceRoot}/server.ts",
+            "program": "${workspaceRoot}/src/server.ts",
             "cwd": "${workspaceRoot}",
             "preLaunchTask": "buildTask",
             "outFiles": [

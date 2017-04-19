@@ -4,11 +4,11 @@
 	"version": "0.1.0",
 	"tasks":[
 		{
-			"taskName": "gulpBuild",
+			"taskName": "buildTask",
 			"command": "gulp",
 			"isShellCommand": true,			
 			"showOutput": "always",
-			"problemMatcher": ["$tsc"],
+			"problemMatcher": ["$gulp-tsc"],
 			"isBuildCommand": true,
 			"args": ["build"]
 		},

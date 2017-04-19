@@ -14,7 +14,7 @@ var port = process.env.port || 1337;
 var svg2png = require("svg2png");
 var url = require('url');
 var path = require("path");
-var dir = path.join(__dirname, '..', '..', 'testData');
+var dir = path.join(__dirname, '..', '..', 'tests', 'testData');
 if (process.env.HOME) {
     dir = process.env.HOME + "\\site\\wwwroot";
 }
@@ -44,3 +44,4 @@ http.createServer(function (req, res) {
         }
     });
 }).listen(port);
+//# sourceMappingURL=server.js.map

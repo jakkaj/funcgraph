@@ -3,8 +3,9 @@
         "module": "commonjs",
         "target": "es6",
         "noImplicitAny": false,
-        "sourceMap": true,
-        "outDir": "../SiteExtension/funcgraph",
+        "sourceMap": true,        
+        "outDir": "SiteExtension/funcgraph",
         "experimentalDecorators": true
+        
     }
 }
