@@ -17,7 +17,21 @@
                 "${workspaceRoot}/build/debug/SiteExtension/funcgraph/**/*.js"
             ],
             "sourceMaps": true
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Tests",
+            "program": "${workspaceRoot}/tests/tests.ts",
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": "build:test",
+            
+            "outFiles": [
+                "${workspaceRoot}/build/test/tests/**/*.js"
+            ],
+            "sourceMaps": true
         }
+
 
     ]
 }

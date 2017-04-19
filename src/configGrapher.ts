@@ -152,7 +152,7 @@ import  * as viz from 'viz.js';
             return {inward: inward, outward:outward, all:all, allBindings:allBindingTypes }
         }
 
-        async walk (){
+        async walk ():Promise<string>{
 
             console.log("Walking: " + this.path);
 

@@ -22,6 +22,15 @@
 			"args": ["build_release"]
 		},
 		{
+			"taskName": "build:test",
+			"command": "gulp",
+			"isShellCommand": true,			
+			"showOutput": "always",
+			"problemMatcher": ["$gulp-tsc"],
+			"isBuildCommand": false,
+			"args": ["compile_tests"]
+		},
+		{
 			"taskName": "clean:dev",
 			"command": "gulp",
 			"isShellCommand": true,			

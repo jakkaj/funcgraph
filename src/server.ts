@@ -2,6 +2,7 @@
 
 import {configGrapher} from "./configGrapher";
 
+
 var http = require('http');
 var port = process.env.port || 1337;
 
@@ -10,7 +11,7 @@ var url = require('url');
 
 var path = require("path");
 
-var dir = path.join(__dirname, '..', '..', 'tests', 'testData');
+var dir = path.join(__dirname, '..', '..','..','..', 'tests', 'testData');
 
 if(process.env.HOME){
     dir = process.env.HOME + "\\site\\wwwroot"; 

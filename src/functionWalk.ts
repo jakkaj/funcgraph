@@ -13,7 +13,7 @@ class functionWalker{
         this.walker = walkerClass.walk(path);
     }
 
-    public doWalk(){         
+    public doWalk():Promise<string>{         
 
             console.log("Walking: " + this.path);
 
