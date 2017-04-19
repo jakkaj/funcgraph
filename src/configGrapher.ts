@@ -1,28 +1,24 @@
 
 "use strict";
 
-import * as walkerClass from "walk";
-
-import * as fs from "fs";
-
-import * as path from "path";
 
 import {node, dotBuilder, connection, edge }  from "./dotgraph";
+import {functionWalker} from "./functionWalk";
+
 import  * as viz from 'viz.js';
     
 
-    class configWalker{    
+    class configGrapher{    
 
         private path: string;
         private walker: any;
         private in: string = "in";
         private out: string = "out";
         private funcTypes: [string, string[]][];
-        constructor(path){
+        constructor(path: string){
             this.path = path;
             
-            this.walker = walkerClass.walk(path);
-           
+                      
             this.funcTypes = [
                 ["http", ["webHookType"]],
                 ["queueTrigger", ["queueName"]],
@@ -156,59 +152,27 @@ import  * as viz from 'viz.js';
             return {inward: inward, outward:outward, all:all, allBindings:allBindingTypes }
         }
 
-        walk (){
+        async walk (){
 
             console.log("Walking: " + this.path);
 
-            var pusher = [];
-            
-            return new Promise((good, bad) => {
-            
-                this.walker.on("file", (root, fileStats, next) => {
-                    
-                    var name = path.join(root, fileStats.name);
-                    var folderSplit = root.split(path.sep);
-                    var folderName = folderSplit[folderSplit.length - 1];
+            var w = new functionWalker(this.path);            
 
-                    if(name.indexOf("function.json")!= -1){                                      
-                        
+            try{
+                var pusher = await w.doWalk();
+                
+                if(pusher == null){
+                    return null;
+                }
+                console.log("Walk done");
+                var consolodatedBindings = this.consolodateBindings(pusher);
+                var dot = this.buildNodes(pusher, consolodatedBindings);
+                var svg = this.buildGraph(dot);
 
-                        fs.readFile(name, {encoding: 'utf-8'}, (err, buffer) =>{
-                            if(!err && buffer.indexOf("{")!= -1){                       
-                                
-                                var data = JSON.parse(buffer.trim());
-                                data.funcName = folderName;
-                                data.bindings.forEach((binding)=>{
-                                    binding.funcName = folderName;
-                                });
-                                pusher.push(data);
-                            }
-                            
-                            next();
-
-                        });
-                    }else{
-                        next();
-                    }            
-                });
-
-                this.walker.on("errors", function (root, nodeStatsArray, next) {
-                    next();
-                });
-        
-                this.walker.on("end",  () => {
-                    try{
-                        console.log("all done");
-                        var consolodatedBindings = this.consolodateBindings(pusher);
-                        var dot = this.buildNodes(pusher, consolodatedBindings);
-                        var svg = this.buildGraph(dot);
-                        good(svg);
-                    }catch (e) {
-                        bad(e);
-                    }
-                    
-                });
-            });
+                return svg;
+            }catch(e){
+                throw e;
+            }
         }
 
         buildNodes(allFunctions, consolodatedBindings){
@@ -285,5 +249,5 @@ init:function(path)
 
 })();
 
-export {configWalker};
+export {configGrapher};
 

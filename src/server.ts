@@ -1,6 +1,6 @@
 'use strict';
 
-import {configWalker} from "./funcwalk";
+import {configGrapher} from "./configGrapher";
 
 var http = require('http');
 var port = process.env.port || 1337;
@@ -22,40 +22,37 @@ if(process.env.HOME){
 
 //var promise = funcwalk.walk();
 
-http.createServer(function (req, res) {
+http.createServer(async function (req, res) {
     
     var queryData = url.parse(req.url, true).query;
 
     var format = queryData.format || "svg";
 
-    var funcwalker = new configWalker(dir);
+    var funcwalker = new configGrapher(dir);
 
 
-
-    funcwalker.walk()
-        .then((result)=>
-        {   
+try{
+        var result = await funcwalker.walk();        
             
-            if(format == "png"){
-                
-                svg2png(result, { width: 2560, height: 2048 })
-                .then((buffer)=>{
-                    res.writeHead(200, { 'Content-Type': 'image/png' });
-                    res.end(buffer, 'binary');
-                });
-                
+        if(format == "png"){
+            
+            svg2png(result, { width: 2560, height: 2048 })
+            .then((buffer)=>{
+                res.writeHead(200, { 'Content-Type': 'image/png' });
+                res.end(buffer, 'binary');
+            });            
 
-            }else{
-                
-                res.writeHead(200, { 'Content-Type': 'image/svg+xml' });
-                res.end(result);
-
-            }
-        })
-        .catch((result) =>{
-            console.log("Bad: " + result);
-            res.writeHead(500, { 'Content-Type': 'text/plain' });
-            res.end("There was problem: " + result);
-        })
+        }
+        else{            
+            res.writeHead(200, { 'Content-Type': 'image/svg+xml' });
+            res.end(result);
+        }
+        
+    }
+    catch(e){
+        console.log("Bad: " + e);
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end("There was problem: " + e);
+    }
 
 }).listen(port);
