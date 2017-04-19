@@ -16,22 +16,13 @@ if(process.env.HOME){
      dir = "C:\\Users\\jorkni\\Documents\\temp\\funcs\\VideoIngestion\\Func";
 }
 
-//var funcwalker = funcwalk.walkConfigs();
-
-
-
-//var promise = funcwalk.walk();
-
 http.createServer(async function (req, res) {
     
     var queryData = url.parse(req.url, true).query;
-
     var format = queryData.format || "svg";
-
     var funcwalker = new configGrapher(dir);
 
-
-try{
+    try{
         var result = await funcwalker.walk();        
             
         if(format == "png"){
@@ -40,14 +31,12 @@ try{
             .then((buffer)=>{
                 res.writeHead(200, { 'Content-Type': 'image/png' });
                 res.end(buffer, 'binary');
-            });            
-
+            });
         }
         else{            
             res.writeHead(200, { 'Content-Type': 'image/svg+xml' });
             res.end(result);
-        }
-        
+        }            
     }
     catch(e){
         console.log("Bad: " + e);

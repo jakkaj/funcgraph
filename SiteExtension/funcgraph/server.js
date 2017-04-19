@@ -20,8 +20,6 @@ if (process.env.HOME) {
 else {
     dir = "C:\\Users\\jorkni\\Documents\\temp\\funcs\\VideoIngestion\\Func";
 }
-//var funcwalker = funcwalk.walkConfigs();
-//var promise = funcwalk.walk();
 http.createServer(function (req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         var queryData = url.parse(req.url, true).query;
