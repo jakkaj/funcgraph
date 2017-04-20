@@ -10,12 +10,15 @@ console.log("Working test data: " + dir);
 
 async function t(){
 
-	 var w = new functionWalker(dir);
-
-	 var result = await w.doWalk();
-
-	 console.log("Walked result" + result)
-
+	var funcwalker = new configGrapher(dir);
+	var result = await funcwalker.walk();        
+        
+	//t.is(result.indexOf("svg")!=-1, true);
+	await fs.writeFileSync("tests/testData/svgSample.svg", result);
+	
+	var compareSvg:string = fs.readFileSync("tests/testData/svgSample.svg", "utf-8");
+	
+	var sResult = result == compareSvg;
 	 
 };
 
