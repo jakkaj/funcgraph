@@ -13,9 +13,7 @@
     "svg2png": "~4.1.1",
     "viz.js": "~1.7.1",
     "walk": "~2.3.9",
-
-
-     "dargs": "^5.1.0",
+    "dargs": "^5.1.0",
     "execa": "^0.6.3",
     "gulp-util": "^3.0.6",
     "resolve-cwd": "^1.0.0",
@@ -28,13 +26,14 @@
     "ava": "^0.19.1",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
-    "gulp-ava": "^0.17.0",    
+    "gulp-ava": "^0.17.0",
+    "gulp-install": "^1.1.0",
     "gulp-tsc": "^1.3.2",
     "typescript": "^2.2.2"
   },
   "ava": {
     "files": [
-      "build/test/tests/tests.js"      
+      "build/test/tests/tests.js"
     ]
   }
 }

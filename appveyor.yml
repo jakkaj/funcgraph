@@ -23,13 +23,13 @@ install:
 
 # Don't actually build.
 build_script:
-  - ps: gulp build_release
+  - node_modules\.bin\gulp build_release
+  - node_modules\.bin\gulp restore_release
 
 test_script:
   - node_modules\.bin\gulp test
 
-after_test:
-  - npm --prefix .\build\release\SiteExtenion\funcgraph install
+after_test:  
   - ps: .\build\build.ps1
   - ps: nuget.exe pack funcgraph.compiled.nuspec
 

@@ -8,6 +8,7 @@ var dest = "build/debug/SiteExtension/funcgraph";
 var dest_test = "build/test";
 var dest_rel = "build/release/SiteExtension/funcgraph";
 var del = require('del');
+var install = require("gulp-install");
 
 
 gulp.task('build', function() {
@@ -18,11 +19,16 @@ gulp.task('build', function() {
     ];
 });
 
-gulp.task('build_release', function() {
-    return [gulp.start("compile_release"),    
+gulp.task('build_release',["compile_release"], function() {
+    return [    
     gulp.src(["package.json", 'src/applicationHost.xdt', 'src/web.config'])
         .pipe(gulp.dest(dest_rel))
     ];
+});
+
+gulp.task('restore_release', function() {
+    return gulp.src([dest_rel + "/package.json"])
+        .pipe(install());
 });
 
 gulp.task('test',["compile_tests"], function() {
