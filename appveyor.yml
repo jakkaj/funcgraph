@@ -29,7 +29,7 @@ test_script:
   - node_modules\.bin\gulp test
 
 after_test:
-  - ps: npm --prefix .\build\release\SiteExtenion\funcgraph install .\build\release\SiteExtenion\funcgraph
+  - npm --prefix .\build\release\SiteExtenion\funcgraph install
   - ps: .\build\build.ps1
   - ps: nuget.exe pack funcgraph.compiled.nuspec
 
