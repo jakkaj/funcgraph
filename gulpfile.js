@@ -26,7 +26,7 @@ gulp.task('build_release', function() {
 });
 
 gulp.task('test',["compile_tests"], function() {
-    return gulp.src(dest_test + '/tests/*.js')
+    return gulp.src(dest_test + '/tests/tests.js')
     .pipe(ava({verbose: true}));
 });
 
