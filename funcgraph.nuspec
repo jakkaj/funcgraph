@@ -8,7 +8,7 @@
     <licenseUrl>https://github.com/jakkaj/funcgraph/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/jakkaj/funcgraph</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>A Site Extension that visualises your the relationships of your Azure Functions</description>
+    <description>A Site Extension that visualises the relationships of your Azure Functions</description>
     <iconUrl>https://github.com/jakkaj/funcgraph/raw/master/media/icon.png</iconUrl>
     <tags>Function visualization visualisation siteextension</tags>
   </metadata>
