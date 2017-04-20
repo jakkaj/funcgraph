@@ -26,7 +26,7 @@ build_script:
   - ps: gulp build_release
 
 test_script:
-  - ps: gulp test
+  - node_modules\.bin\gulp test
 
 after_test:
   - ps: npm --prefix .\build\release\SiteExtenion\funcgraph install .\build\release\SiteExtenion\funcgraph
