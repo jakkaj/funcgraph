@@ -13,6 +13,6 @@
     <tags>Function visualization visualisation siteextension</tags>
   </metadata>
   <files>
-    <file src="SiteExtension\funcgraph\**\*.*" target="content" />
+    <file src="build\release\SiteExtension\funcgraph\**\*.*" target="content" />
   </files>
 </package>
