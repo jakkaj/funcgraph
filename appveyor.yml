@@ -9,9 +9,9 @@ environment:
 install:
   # Get the latest stable version of Node.js or io.js
   - ps: Install-Product node $env:nodejs_version
-  - npm install -g typescript
-  - npm install -g gulp
-  - npm install
+  - npm install -g -s typescript
+  - npm install -g -s gulp
+  - npm install -s
   
 # Post-install test scripts.
 #test_script:

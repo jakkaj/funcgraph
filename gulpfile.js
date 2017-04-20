@@ -28,7 +28,11 @@ gulp.task('build_release',["compile_release"], function() {
 
 gulp.task('restore_release', function() {
     return gulp.src([dest_rel + "/package.json"])
-        .pipe(install());
+        .pipe(install(
+            {
+                npm: "-s"
+            }
+        ));
 });
 
 gulp.task('test',["compile_tests"], function() {
