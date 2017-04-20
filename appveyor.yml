@@ -9,12 +9,10 @@ environment:
 install:
   # Get the latest stable version of Node.js or io.js
   - ps: Install-Product node $env:nodejs_version
-  # install modules
-  - cd "SiteExtension\funcgraph"
+  - npm install -g typescript
+  - npm install -g gulp
   - npm install
-  - cd ..
-  - cd ..
-
+  
 # Post-install test scripts.
 #test_script:
   # Output useful info for debugging.
@@ -24,7 +22,11 @@ install:
 #  - npm test
 
 # Don't actually build.
-build: off
+build_script:
+  - ps: gulp build_release
+
+test_script:
+  - ps: gulp test
 
 after_test:
   - ps: .\build\build.ps1
