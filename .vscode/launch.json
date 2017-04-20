@@ -22,7 +22,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Tests",
-            "program": "${workspaceRoot}/tests/tests.ts",
+            "program": "${workspaceRoot}/tests/testAttach.ts",
             "cwd": "${workspaceRoot}",
             "preLaunchTask": "build:test",
             

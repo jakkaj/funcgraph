@@ -13,11 +13,11 @@ class functionWalker{
         this.walker = walkerClass.walk(path);
     }
 
-    public doWalk():Promise<string>{         
+    public doWalk():Promise<Array<string>>{         
 
             console.log("Walking: " + this.path);
 
-            var pusher = [];
+            var pusher:Array<string> = [];
             
             return new Promise((good, bad) => {
             
