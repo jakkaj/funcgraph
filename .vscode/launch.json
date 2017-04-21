@@ -22,7 +22,8 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Tests",
-            "program": "${workspaceRoot}/tests/testAttach.ts",
+            "program": "${workspaceRoot}/node_modules/ava/profile.js",
+            "args": ["build/test/tests/tests.js"],
             "cwd": "${workspaceRoot}",
             "preLaunchTask": "build:test",
             
