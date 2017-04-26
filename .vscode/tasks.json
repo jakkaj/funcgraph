@@ -1,0 +1,63 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+	"version": "0.1.0",
+	"tasks":[
+		{
+			"taskName": "build:dev",
+			"command": "gulp",
+			"isShellCommand": true,			
+			"showOutput": "always",
+			"problemMatcher": ["$gulp-tsc"],
+			"isBuildCommand": false,
+			"args": ["build"]
+		},
+		{
+			"taskName": "build:release",
+			"command": "gulp",
+			"isShellCommand": true,			
+			"showOutput": "always",
+			"problemMatcher": ["$gulp-tsc"],
+			"isBuildCommand": false,
+			"args": ["build_release"]
+		},
+		{
+			"taskName": "build:test",
+			"command": "gulp",
+			"isShellCommand": true,			
+			"showOutput": "always",
+			"problemMatcher": ["$gulp-tsc"],
+			"isBuildCommand": false,
+			"args": ["compile_tests"]
+		},
+		{
+			"taskName": "clean:dev",
+			"command": "gulp",
+			"isShellCommand": true,			
+			"showOutput": "always",
+			"problemMatcher": ["$gulp-tsc"],
+			"isBuildCommand": false,
+			"args": ["clean:dev"]
+		},
+		{
+			"taskName": "build:dev:fast",
+			"command": "tsc",
+			"isShellCommand": true,
+			"args": ["-p", "./src", "--listEmittedFiles", "--pretty"],
+			"showOutput": "silent",			
+			"problemMatcher": "$tsc",
+			"isBuildCommand": true
+		},
+		{
+			"taskName": "Ava Tests",
+			"isTestCommand": true,
+			"command": "ava",
+			"isShellCommand": true,
+			"args": ["build/debug/SiteExtension/funcgraph/tests.js"],
+			"showOutput": "always"
+			
+		}
+	]
+	
+	
+}

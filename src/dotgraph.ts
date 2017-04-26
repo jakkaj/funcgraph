@@ -1,5 +1,5 @@
 
-var format = require("string-format");
+import * as format from "string-format";
 format.extend(String.prototype)
 
 class dotBuilder{
@@ -31,7 +31,12 @@ class dotBuilder{
 
 
 class node{
-    constructor(shape, style, color, elements){
+    private shape:string;
+    private style:string
+    private color:string;
+    private elements:string[];
+
+    constructor(shape:string, style:string, color:string, elements:string[]){
         this.shape = shape; 
         this.style = style;
         this.color = color;
@@ -39,7 +44,7 @@ class node{
     }
 
     build(){
-        var builder = "node [margin=.3,fontname=Consolas,fontsize=10,shape={shape},style={style},color={color}]".format(this);
+        var builder = `node [margin=.3,fontname=Consolas,fontsize=10,shape=${this.shape},style=${this.style},color=${this.color}]`;
 
         this.elements.forEach((ele)=>{
             builder += "\r\n \"" + ele + "\"";
@@ -50,7 +55,12 @@ class node{
 }
 
 class edge {
-    constructor(style, arrowhead, direction, connections){
+    private style:string;
+    private arrowhead:string;
+    private direction:string;
+    private connections:connection[];
+
+    constructor(style:string, arrowhead:string, direction:string, connections:connection[]){
         this.style = style; 
         this.arrowhead = arrowhead;
         this.direction = direction;
@@ -92,25 +102,24 @@ class edge {
 }
 
 class connection{
-    constructor(from, to, label){
+    private from:string;
+    private to:string;
+    private label:string;
+
+    constructor(from:string, to:string, label:string){
         this.from = from;
         this.to = to;
         this.label = label;
     }
 
     build(){
-        var builder = "\"{from}\" -> \"{to}\"".format(this);
+        var builder = `"${this.from}" -> "${this.to}"`;
         if(this.label && this.label != ""){
-            builder += " [ label = \"      {label}     \" ]".format(this);
+            builder +=  `[ label = "      ${this.label}     " ]`;
         }     
 
         return builder;   
     }
 }
 
-module.exports = {
-    node : node,
-    dotBuilder : dotBuilder,
-    connection : connection,
-    edge : edge
-}
+export {node, dotBuilder, connection, edge };

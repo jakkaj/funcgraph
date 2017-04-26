@@ -1,36 +1,39 @@
 
 "use strict";
-var walker = require("walk"), 
-    fs = require("fs"), 
-    path = require("path"), 
-    dotgraph = require("./dotgraph.js"), 
-    viz = require('viz.js');
+
+
+import {node, dotBuilder, connection, edge }  from "./dotgraph";
+import {functionWalker} from "./functionWalk";
+
+import  * as viz from 'viz.js';
     
 
-    class configWalker{    
+    class configGrapher{    
 
-        constructor(path){
+        private path: string;
+        private walker: any;
+        private in: string = "in";
+        private out: string = "out";
+        private funcTypes: [string, string[]][];
+        constructor(path: string){
             this.path = path;
-            this.walker = walker.walk(path);
-
-            this.in = "in";
-            this.out = "out";
-
+            
+                      
             this.funcTypes = [
-                ["http", "webHookType"],
-                ["queueTrigger", "queueName"],
-                ["blob", "path"],
-                ["timerTrigger", "schedule"],
+                ["http", ["webHookType"]],
+                ["queueTrigger", ["queueName"]],
+                ["blob", ["path"]],
+                ["timerTrigger", ["schedule"]],
                 ["serviceBus", ["queueName", "topicName"]],
-                ["manualTrigger", null],
-                ["eventHubTrigger", "path"],
-                ["eventHub", "path"],  
-                ["documentDB", "databaseName"],
-                ["table", "tableName"], 
-                ["notificationHub", "hubName"],
-                ["sendGrid", null],
-                ["queueTrigger", "queueName"],
-                ["twilioSms", null]
+                ["manualTrigger", [null]],
+                ["eventHubTrigger", ["path"]],
+                ["eventHub", ["path"]],  
+                ["documentDB", ["databaseName"]],
+                ["table", ["tableName"]], 
+                ["notificationHub", ["hubName"]],
+                ["sendGrid", [null]],
+                ["queueTrigger", ["queueName"]],
+                ["twilioSms", [null]]
             ];
         }     
 
@@ -48,14 +51,14 @@ var walker = require("walk"),
 
         findBindingType(binding){
             var type = binding.type;
-            var discoveredFuncType = "";
-            var propMatch = "";
+            var discoveredFuncType:string = "";
+            var propMatch:(string | string[]) = null;
             var propVal = "";
 
             this.funcTypes.forEach((funcType)=>{
                 if(type.toLowerCase().indexOf(funcType[0].toLowerCase()) != -1){
-                    propMatch = funcType[1];
-                    discoveredFuncType = funcType[0];                    
+                    propMatch = funcType[1];                     
+                    discoveredFuncType = funcType[0].toString();                    
                 }
             });
 
@@ -149,70 +152,38 @@ var walker = require("walk"),
             return {inward: inward, outward:outward, all:all, allBindings:allBindingTypes }
         }
 
-        walk (){
+        async walk ():Promise<string>{
 
             console.log("Walking: " + this.path);
 
-            var pusher = [];
-            
-            return new Promise((good, bad) => {
-            
-                this.walker.on("file", (root, fileStats, next) => {
-                    
-                    var name = path.join(root, fileStats.name);
-                    var folderSplit = root.split(path.sep);
-                    var folderName = folderSplit[folderSplit.length - 1];
+            var w = new functionWalker(this.path);            
 
-                    if(name.indexOf("function.json")!= -1){                                      
-                        
+            try{
+                var pusher = await w.doWalk();
+                
+                if(pusher == null){
+                    return null;
+                }
+                console.log("Walk done");
+                var consolodatedBindings = this.consolodateBindings(pusher);
+                var dot = this.buildNodes(pusher, consolodatedBindings);
+                var svg = this.buildGraph(dot);
 
-                        fs.readFile(name, {encoding: 'utf-8'}, (err, buffer) =>{
-                            if(!err && buffer.indexOf("{")!= -1){                       
-                                
-                                var data = JSON.parse(buffer.trim());
-                                data.funcName = folderName;
-                                data.bindings.forEach((binding)=>{
-                                    binding.funcName = folderName;
-                                });
-                                pusher.push(data);
-                            }
-                            
-                            next();
-
-                        });
-                    }else{
-                        next();
-                    }            
-                });
-
-                this.walker.on("errors", function (root, nodeStatsArray, next) {
-                    next();
-                });
-        
-                this.walker.on("end",  () => {
-                    try{
-                        console.log("all done");
-                        var consolodatedBindings = this.consolodateBindings(pusher);
-                        var dot = this.buildNodes(pusher, consolodatedBindings);
-                        var svg = this.buildGraph(dot);
-                        good(svg);
-                    }catch (e) {
-                        bad(e);
-                    }
-                    
-                });
-            });
+                return svg;
+            }catch(e){
+                throw e;
+            }
         }
 
         buildNodes(allFunctions, consolodatedBindings){
             
             var ab = consolodatedBindings.allBindings;
             
-            var ioNodes = new dotgraph.node("record", "filled", "yellow", 
+            var ioNodes = new node("record", "filled", "yellow", 
                 consolodatedBindings.allBindings.map((ele) => ele.name)
             );
 
-            var funcNodes = new dotgraph.node("doublecircle", "filled", "lightblue", 
+            var funcNodes = new node("doublecircle", "filled", "lightblue", 
                 allFunctions.map((ele) => ele.funcName)
             );
 
@@ -220,8 +191,8 @@ var walker = require("walk"),
             var connectionTo = ab.filter((binding)=>binding.direction == this.in);           
 
 
-            var edgesTo = new dotgraph.edge("bold", null, null, connectionTo.map((binding)=>new dotgraph.connection(binding.name, binding.funcName, binding.varName)));
-            var edgesFrom = new dotgraph.edge("bold", null, null, connectionFrom.map((binding)=>new dotgraph.connection(binding.funcName, binding.name, binding.varName)));
+            var edgesTo = new edge("bold", null, null, connectionTo.map((binding)=>new connection(binding.name, binding.funcName, binding.varName)));
+            var edgesFrom = new edge("bold", null, null, connectionFrom.map((binding)=>new connection(binding.funcName, binding.name, binding.varName)));
 
             //var ioString = ioNodes.build();
             //var funcString = funcNodes.build();
@@ -230,7 +201,7 @@ var walker = require("walk"),
 
             var graphName = process.env.WEBSITE_HOSTNAME || "Local"
 
-            var builder = new dotgraph.dotBuilder();
+            var builder = new dotBuilder();
             var builtDot = builder.build([ioNodes, funcNodes], [edgesTo, edgesFrom], "Function Graph\r\n" + graphName + "\r\n\r\nhttps://github.com/jakkaj/funcgraph\r\n\r\n");
             return builtDot;
         }
@@ -278,7 +249,5 @@ init:function(path)
 
 })();
 
-module.exports = {
-    walkConfigs : configWalker
-}
+export {configGrapher};
 

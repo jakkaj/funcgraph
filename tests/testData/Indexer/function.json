@@ -1,0 +1,22 @@
+{
+  "bindings": [
+    {
+      "type": "serviceBusTrigger",
+      "name": "newVideoServiceBusMessage",
+      "topicName": "newasset",
+      "subscriptionName": "indexer",
+      "connection": "mediaencoder",
+      "accessRights": "Manage",
+      "direction": "in"
+    },
+    {
+      "type": "serviceBus",
+      "name": "videoindexparsedMsg",
+      "topicName": "videoindexparsed",
+      "connection": "mediaencoder",
+      "accessRights_": "Manage",
+      "direction": "out"
+    }
+  ],
+  "disabled": false
+}

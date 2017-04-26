@@ -1,0 +1,38 @@
+{
+    // Use IntelliSense to learn about possible Node.js debug attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+
+    "configurations": [
+       
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Program",
+            "program": "${workspaceRoot}/src/server.ts",
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": "build:dev:fast",
+            "outFiles": [
+                "${workspaceRoot}/build/debug/SiteExtension/funcgraph/**/*.js"
+            ],
+            "sourceMaps": true
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch Tests",
+            "program": "${workspaceRoot}/node_modules/ava/profile.js",
+            "args": ["build/test/tests/tests.js"],
+            "cwd": "${workspaceRoot}",
+            "preLaunchTask": "build:test",
+            
+            "outFiles": [
+                "${workspaceRoot}/build/test/tests/**/*.js"
+            ],
+            "sourceMaps": true
+        }
+
+
+    ]
+}
